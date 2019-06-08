@@ -18,6 +18,7 @@ class WorkoutLoader(filename: String) {
 
     val outList = new ListBuffer[Workout]()
     try {
+      Class.forName("com.mysql.jdbc.Driver")
       val connection = DriverManager.getConnection(url, username, password)
       val statement = connection.createStatement
       val rs   = statement.executeQuery("SELECT * FROM workouts")
