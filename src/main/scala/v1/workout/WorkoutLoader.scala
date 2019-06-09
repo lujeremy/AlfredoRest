@@ -2,12 +2,17 @@ package v1.workout
 
 import java.sql.DriverManager
 
+import org.slf4j.{Logger, LoggerFactory}
+
 import scala.collection.mutable.ListBuffer
 import scala.io.Source
 
 class WorkoutLoader(filename: String) {
 
+  implicit val logger: Logger = LoggerFactory.getLogger(this.getClass.getName)
+
   def loadData() : Map[String, List[Workout]]= {
+    logger.info("Loading from database...")
     val bufferedSource = Source.fromFile(filename)
     val lines = bufferedSource.getLines().toList
     bufferedSource.close
@@ -18,7 +23,7 @@ class WorkoutLoader(filename: String) {
 
     val outList = new ListBuffer[Workout]()
     try {
-      Class.forName("com.mysql.jdbc.Driver")
+      Class.forName("com.mysql.cj.jdbc.Driver")
       val connection = DriverManager.getConnection(url, username, password)
       val statement = connection.createStatement
       val rs   = statement.executeQuery("SELECT * FROM workouts")
@@ -38,6 +43,7 @@ class WorkoutLoader(filename: String) {
       workoutMap
     } catch {
       case e: Exception =>
+        logger.error("Something went wrong")
         e.printStackTrace
         Map.empty
     }
