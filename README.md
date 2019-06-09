@@ -1,6 +1,6 @@
-# FitRest
+# AlfredoRest
 
-A REST API built with Javalin. It aims to retrieve data in JSON format from JerBot's workout database.
+A REST API built with Javalin. It aims to retrieve data in JSON format from Alfredo's workout database.
 
 
 ## Getting Started
