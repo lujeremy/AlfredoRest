@@ -23,7 +23,7 @@ class WorkoutController {
   def getAllWorkouts(ctx: Context): Unit = {
     logger.info("Fetching all workouts")
     val workoutMap: Map[String, List[Workout]] = loader.loadData()
-    ctx.result(mapper.writeValueAsString(workoutMap))
+    ctx.result(mapper.writeValueAsString(workoutMap)).contentType("application/json")
   }
 
   def getWorkout(ctx: Context): Unit = {
@@ -31,7 +31,7 @@ class WorkoutController {
     val workoutMap: Map[String, List[Workout]] = loader.loadData()
     val maybeWorkout = workoutMap("workouts").find(n => n.id == ctx.pathParam(":id").toLong)
 
-    maybeWorkout.map(workout => ctx.result(mapper.writeValueAsString(workout)))
+    maybeWorkout.map(workout => ctx.result(mapper.writeValueAsString(workout)).contentType("application/json"))
       .getOrElse(ctx.result("Nothing found"))
   }
 }
